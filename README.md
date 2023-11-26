@@ -21,8 +21,8 @@ If decide to buy/sell at the start then has all the period to sell/buy. Once sol
 Inputs:
 +Open, close, min, max, volume:
 difference between last tick and the mean with the last fibonnaci numbers ticks
-for Fibonacci=[1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584]
-Example: 2584 / 26 = 99 days (if 15min)
+for Fibonacci=[1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584] -> len=17 \* 1 / 3 = 5.6 -> 6 fibonacci = 13
+Example: 2584 / 26 = 99 days (if 15min) -> predict day then window 26
 +Time in the period
 0..1 day seconds 0..86400
 0..1 week day 1..5
