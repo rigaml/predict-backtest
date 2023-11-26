@@ -1,5 +1,7 @@
 from typing import List
 
+from modules.validation_utils import are_values_greater, is_mono_ascending
+
 class ClassesCalc:
     def __init__(
         self,
@@ -130,11 +132,3 @@ def validate_input(data, window, down_pcts, up_pcts):
         raise ValueError(
             f"'down_pcts' and 'up_pcts' and 'data' values should greater than 0"
         )
-
-
-def is_mono_ascending(lst) -> bool:
-    return all(x < y for x, y in zip(lst, lst[1:]))
-
-
-def are_values_greater(lst, lower_bound=0) -> bool:
-    return all(lower_bound < x for x in lst)
