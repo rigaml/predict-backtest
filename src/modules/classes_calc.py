@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 from modules.validation_utils import are_values_greater, is_mono_ascending
@@ -8,16 +9,20 @@ class ClassesCalc:
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
+        trace_print= False,
     ):
         self.window = window
         self.down_pcts = down_pcts
         self.up_pcts = up_pcts
+        self.trace_print = trace_print
 
     def calculate(self, data):
         classes = find_first_up_down(
-            data, self.window, self.down_pcts, self.up_pcts
+            data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
-        # TODO fill the end where classes can not be found with values?
+
+        classes += [math.nan for _ in range(len(data) - len(classes))]
+            
         return classes
 
 def find_first_up_down(
@@ -25,6 +30,7 @@ def find_first_up_down(
     window: int,
     down_pcts: List[float],
     up_pcts: List[float],
+    trace_print= False,
 ) -> List[int]:
     """
     Calculates the maximum threshold reached in the window period after each data point
@@ -43,10 +49,10 @@ def find_first_up_down(
 
     classes = []
 
-    print(f"\ndata={data}")
-    print(f"out loop from 0 to {len(data) - window - 1}")
+    if trace_print: print(f"\ndata={data}")
+    if trace_print: print(f"out loop from 0 to {len(data) - window - 1}")
     for data_idx in range(len(data) - window):
-        item_class = find_window_class(data, window, down_pcts, up_pcts, data_idx)
+        item_class = find_window_class(data, window, down_pcts, up_pcts, data_idx, trace_print)
 
         classes.append(item_class)
 
@@ -59,6 +65,7 @@ def find_window_class(
     down_pcts: List[float],
     up_pcts: List[float],
     data_idx: int,
+    trace_print: bool,
 ):
     # Set the value class id of a class that is to do nothing
     neutral_class = len(down_pcts)
@@ -71,15 +78,15 @@ def find_window_class(
     up_pct_idx_max = 0
     up_pct_found = False
 
-    print(f"in loop from {data_idx + 1} to {data_idx + 1 + window - 1}")
+    if trace_print: print(f"in loop from {data_idx + 1} to {data_idx + 1 + window - 1}")
     for window_idx in range(data_idx + 1, data_idx + 1 + window):
-        pct_diff = (inital_value - data[window_idx]) * 100 / inital_value
-        print(
+        pct_diff = (data[window_idx] - inital_value) * 100 / inital_value
+        if trace_print: print(
             f"window initial={inital_value} value={data[window_idx]} window_idx={window_idx} pct_down={pct_diff:.2f}"
         )        
         for pct_idx in range(down_pct_idx_max, len(down_pcts)):
-            print(f"down_pcts idx: {pct_idx} {down_pcts[pct_idx]}")
-            if pct_diff >= down_pcts[pct_idx]:
+            if trace_print: print(f"down_pcts idx: {pct_idx} {down_pcts[pct_idx]}")
+            if pct_diff * -1 >= down_pcts[pct_idx]:
                 if up_pct_found:
                     return item_class
 
@@ -88,8 +95,8 @@ def find_window_class(
                 item_class = neutral_class - pct_idx - 1
 
         for pct_idx in range(up_pct_idx_max, len(up_pcts)):
-            print(f"up_pcts idx: {pct_idx} {up_pcts[pct_idx]}")
-            if pct_diff * -1 >= up_pcts[pct_idx]:
+            if trace_print: print(f"up_pcts idx: {pct_idx} {up_pcts[pct_idx]}")
+            if pct_diff >= up_pcts[pct_idx]:
                 if down_pct_found:
                     return item_class
 

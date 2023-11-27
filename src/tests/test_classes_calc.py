@@ -165,3 +165,22 @@ def test_find_first_up_down_when_up_is_reached_before_down_returns_index_up(
     classes = classes_calc.find_first_up_down(data, window, down_pcts, up_pcts)
 
     assert classes == expected
+
+@pytest.mark.parametrize(
+    "input_data, expected",
+    [
+        ([10, 11, 12, 13, 180], [13, 20]),
+    ],
+)
+def test_find_first_up_down_when_up_jupyter(
+    input_data, expected
+):
+    data = input_data
+    window = 3
+    down_pcts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    up_pcts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+    classes = classes_calc.find_first_up_down(data, window, down_pcts, up_pcts)
+
+    assert classes == expected
+
