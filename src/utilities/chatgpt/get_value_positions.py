@@ -2,7 +2,7 @@
 
 import random
 
-def get_positions(lst, value, n):
+def get_indexes_value(lst, value, n):
     # Get indices of elements equal to the specified value
     positions = [i for i, x in enumerate(lst) if x == value]
 
@@ -16,5 +16,5 @@ my_list = [1, 2, 3, 4, 2, 5, 2, 6, 7, 2]
 target_value = 2
 num_positions_to_select = 3
 
-result_positions = get_positions(my_list, target_value, num_positions_to_select)
+result_positions = get_indexes_value(my_list, target_value, num_positions_to_select)
 print("Selected positions:", result_positions)
