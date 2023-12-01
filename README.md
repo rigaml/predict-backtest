@@ -197,6 +197,54 @@ nn.Linear(in_features=hidden_units, out_features=1)
 
 Epoch: 9900 | Loss: 0.68638 Acc: 54.93% | Test loss: 0.68470 Test acc: 57.97%
 
+2023-12-01 Experiment 6:
+Getting 15 min ticks for DNA from 2021-04-01 to 2023-11-11
+classes_window= 52
+down_pcts= [7]
+up_pcts= [7]
+signal_windows= [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+After 600 iterations with randomly shuffle samples and using batches:
+Epoch: 420 | Loss: 0.66522 Acc: 58.00% | Test loss: 0.68317 Test acc: 58.69%
+
+2023-12-01 Experiment 7:
+Getting 5 min ticks for DNA from 2022-01-01 to 2023-11-30
+classes_window= 80
+down_pcts= [5]
+up_pcts= [7]
+Total: 38688
+47.31% 18303 times 0% change (1)
+18.92% 7318 times 7% change (2)
+33.57% 12987 times -5% change (0)
+0.21% 80 times 0% change (nan)
+
+signal_windows= [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48]
+
+After cutting ends and make classes even
+Total: 14631
+25.00% 3658 times -5% change (0)
+25.00% 3658 times 0% change (1)
+50.00% 7315 times 7% change (2)
+
+self.linear_layer_stack = nn.Sequential(
+nn.Linear(in_features=input_features, out_features=hidden_units*8),
+nn.Tanh(),
+nn.Linear(in_features=hidden_units*8, out_features=hidden_units*4),
+nn.Tanh(),
+nn.Linear(in_features=hidden_units*4, out_features=hidden_units*2),
+nn.Tanh(),
+nn.Linear(in_features=hidden_units*2, out_features=hidden_units),
+nn.Tanh(),
+nn.Linear(in_features=hidden_units, out_features=1)
+
+loss_fn = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.SGD(params=model_0.parameters(), lr=0.07)
+accuracy_fn= Accuracy(task='binary').to(device)
+
+After 600 iterations with randomly shuffle samples and using batches:
+Last Loss: 0.69126 Acc: 51.44% | Test loss: 0.70031 Test acc: 51.67%
+After another 600 iterations maximum achieved
+Epoch: 540 | Loss: 0.69090 Acc: 51.66% | Test loss: 0.70022 Test acc: 51.98%
+
 TODO:
 -How to use transforms
 -How to use the DataLoader and batches
