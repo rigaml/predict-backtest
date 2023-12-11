@@ -122,7 +122,7 @@ Tried with multiple network configuration. Last network configuration
 self.linear_layer_stack = nn.Sequential(
 nn.Linear(in_features=input_features, out_features=hidden_units*3),
 nn.ReLU(),
-nn.Linear(in_features=hidden_units*3, out_features=hidden_units*2),
+nn.Linear(in_features=hidden_units*3, out_features=hidden_units\*2),
 nn.ReLU(),
 nn.Linear(in_features=hidden_units\*2, out_features=hidden_units),
 nn.ReLU(),
@@ -191,6 +191,7 @@ Epoch: 9900 | Loss: 0.68861 Acc: 68.91% | Test loss: 1.82891 Test acc: 38.60%
 +Copilot: From the data you’ve provided, it seems that the model performs best on the test set at epoch 8400, where the test accuracy is highest at 44.80%. However, it’s important to note that the model’s performance on the training set is still improving beyond this point, suggesting that the model may continue to learn useful representations if trained for more epochs. However, the increasing gap between the training accuracy and the test accuracy, as well as the increasing test loss, suggest that the model may be overfitting to the training data. Therefore, based on this information, epoch 8400 might be a good point to stop training and use the network configuration, as it offers a good balance between underfitting and overfitting.
 
 ### 2023-11-29 Experiment 5:
+
 self.linear_layer_stack = nn.Sequential(
 nn.Linear(in_features=input_features, out_features=hidden_units*8),
 nn.Tanh(),
@@ -253,7 +254,6 @@ Last Loss: 0.69126 Acc: 51.44% | Test loss: 0.70031 Test acc: 51.67%
 After another 600 iterations maximum achieved
 Epoch: 540 | Loss: 0.69090 Acc: 51.66% | Test loss: 0.70022 Test acc: 51.98%
 
-
 ### 2023-12-11 Experiment 8:
 
 #### SETUP:
@@ -290,11 +290,17 @@ model_0 = StockModelBinaryV0(
 input_features=len(signal_windows),
 hidden_units=12).to(device)
 
+loss_fn = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.SGD(params=model_0.parameters(), lr=0.1)
+accuracy_fn= Accuracy(task='binary').to(device)
+
 #### RESULTS:
 
 Epoch: 590 | Loss: 0.07311 Acc: 96.95% | Test loss: 0.23384 Test acc: 95.48%
 Last Loss: 0.06744 Acc: 97.29% | Test loss: 0.24610 Test acc: 93.61%
+
 ## TODO:
+
 -How to use transforms
 -How to use the DataLoader and batches
 -Use the RSI see if it works
