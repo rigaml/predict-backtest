@@ -296,6 +296,7 @@ accuracy_fn= Accuracy(task='binary').to(device)
 
 #### RESULTS:
 
+2023-12-11-DNA-from20210101-to20231111-in16-hid12-result9361pct.pth
 Epoch: 590 | Loss: 0.07311 Acc: 96.95% | Test loss: 0.23384 Test acc: 95.48%
 Last Loss: 0.06744 Acc: 97.29% | Test loss: 0.24610 Test acc: 93.61%
 
