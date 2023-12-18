@@ -1,3 +1,22 @@
+## SETUP
+
+Open Jupyter Notebook: In Windows open Anaconda Prompt:
+
+```powershell
+cd C:\Users\User\AAAMio\Projects\PyTorch
+conda activate pytorch
+python -m jupyter notebook
+```
+
+In the web browser open the right Jupyter notebook
+
+Run app: In Windows open Anaconda Prompt:
+cd C:\Users\User\AAAMio\Projects\riga-stock-backpy-run\src
+conda activate pytorch
+python single-run-nn.py
+
+## TODO
+
 Create simple NN with data
 +Execute PyTorch program locally - without Notebook
 +How to calculate data series
