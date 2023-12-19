@@ -1,7 +1,7 @@
 import math
 from typing import List
 
-from modules.validation_utils import is_mono_ascending
+from classificators.validation_utils import is_mono_ascending
 
 class ProportionsCalc:
     def __init__(
