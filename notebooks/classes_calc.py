@@ -1,7 +1,7 @@
 import math
 from typing import List
 
-from modules.validation_utils import are_values_greater, is_mono_ascending
+from classificators.validation_utils import are_values_greater, is_mono_ascending
 
 class ClassesCalc:
     def __init__(
