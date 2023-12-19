@@ -1,9 +1,13 @@
 import math
 from typing import List
 
-from modules.validation_utils import are_values_greater, is_mono_ascending
+from classificators.validation_utils import are_values_greater, is_mono_ascending
 
-class ClassesCalc:
+class PercentClassificator:
+    """
+    Calculates a numeric value for each value in a series depending on the percentage difference 
+    between an element in the series and the 'window' number of elements after it
+    """
     def __init__(
         self,
         window: int,
@@ -21,7 +25,8 @@ class ClassesCalc:
             data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
 
-        classes += [math.nan for _ in range(len(data) - len(classes))]
+        # Last self.window positions can not be calculated 
+        classes += [math.nan for _ in range(self.window)]
             
         return classes
 
