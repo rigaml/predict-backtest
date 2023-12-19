@@ -1,37 +1,44 @@
 import math
 from typing import List
 
-from modules.validation_utils import is_mono_ascending
+from classificators.validation_utils import is_mono_ascending
 
-class SignalsCalc:
+class ProportionsCalc:
     def __init__(
         self,
         windows: List[int],
     ):
         self.windows = windows
 
-    def calculate(self, data):
-        validate_input(data, self.windows)
+    def calculate(self, prices):
+        """
+        Calculates the averages of the prices for the windows provided and then the proportion from the last price
+        """
+
+        validate_input(prices, self.windows)
 
         windows_rolling_avg = []
         for window in self.windows:
-            windows_rolling_avg.append(calculate_rolling_average(data, window))
+            windows_rolling_avg.append(calculate_rolling_average(prices, window))
 
-        return windows_rolling_avg
+        proportions= calculate_proportions(prices, windows_rolling_avg)
+
+        return proportions
             
 
-def calculate_rolling_average(data: List[float], window: int):
+@staticmethod
+def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
     rolling_avgs = []
-    current_sum= data[0]
+    current_sum= prices[0]
     for i in range(1, window):
-        current_sum += data[i]
+        current_sum += prices[i]
         rolling_avgs.append(math.nan)
 
-    for i in range(window, len(data)):
+    for i in range(window, len(prices)):
         rolling_avg = current_sum / window
         rolling_avgs.append(rolling_avg)
 
-        current_sum = current_sum - data[i - window] + data[i]
+        current_sum = current_sum - prices[i - window] + prices[i]
 
     # Add rolling average for last element
     rolling_avg = current_sum / window
@@ -39,6 +46,17 @@ def calculate_rolling_average(data: List[float], window: int):
 
     return rolling_avgs
 
+@staticmethod
+def calculate_proportions(prices: List[float], averages: List[List[float]]) -> List[List[float]]:
+    list_of_list_proportions= []
+    for averages in averages:
+        list_proportions= []
+        for idx in range(len(averages)):
+            list_proportions.append((prices[idx]-averages[idx])/prices[idx])
+
+        list_of_list_proportions.append(list_proportions)
+
+    return list_of_list_proportions
 
 def validate_input(data: List[float], windows: List[int]):
     """
