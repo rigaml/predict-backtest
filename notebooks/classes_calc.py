@@ -1,23 +1,25 @@
 import math
-from typing import List
+from typing import Callable, List
 
 from classificators.validation_utils import are_values_greater, is_mono_ascending
 
 class ClassesCalc:
     def __init__(
         self,
+        find_first_class: Callable, 
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
         trace_print= False,
     ):
+        self.find_first_class = find_first_class
         self.window = window
         self.down_pcts = down_pcts
         self.up_pcts = up_pcts
         self.trace_print = trace_print
 
     def calculate(self, data):
-        classes = find_first_up_down(
+        classes = self.find_first_class(
             data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
 
@@ -35,10 +37,10 @@ def find_first_up_down(
     """
     Calculates the maximum threshold reached in the window period after each data point
     If arrives to many positive threshold (without negatives) the class returned should be the maximum threshold achieved.
-    If arrives to positive and negative threshold (or the other way around ) the class returned should be the first achieved. Later inspections in time should give the other value direction.
+    If arrives to positive and negative threshold (or the other way around) the class returned should be the first achieved. Later inspections in time should give the other value direction.
 
     Args:
-        data: prices in ascending date order.
+        data: prices in date ascending order.
         window: number of items after the data item where the down_pcts or up_pcts is going to be tested.
         down_pcts: percentage from a data item point to reach (positive value).
         up_pcts: percentage from a data item point to reach.

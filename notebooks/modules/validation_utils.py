@@ -1,8 +1,8 @@
 @staticmethod
-def is_mono_ascending(lst) -> bool:
-    return all(x < y for x, y in zip(lst, lst[1:]))
+def is_mono_ascending(values) -> bool:
+    return all(x < y for x, y in zip(values, values[1:]))
 
 
 @staticmethod
-def are_values_greater(lst, lower_bound=0) -> bool:
-    return all(lower_bound < x for x in lst)
+def are_over(values, low=0) -> bool:
+    return all(low < x for x in values)
