@@ -1,8 +1,9 @@
 import random
 from typing import List
+from collections import Counter
 
 @staticmethod
-def calculate_price_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
+def calculate_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
     list_of_list_proportions= []
     for averages in averages_list:
         list_proportions= []
@@ -25,7 +26,7 @@ def get_indexes_value(lst: List[int], value: int, n: int) -> List[int]:
 
     return selected_positions
 
-
+@staticmethod
 def remove_indexes(lst: List[int], indexes: List[int]) -> List[int]:
     '''
     Given a list of integers 'r' that are indexes on list 'a' create a new list 'b' removing from 'a' the indexes in 'r' 
@@ -57,3 +58,22 @@ def normalize_list(input_list):
     normalized_list = [(x - min_val) / (max_val - min_val) for x in input_list]
 
     return normalized_list
+
+
+@staticmethod
+def display_frequency_numbers(classes, down_pcts, up_pcts):
+    # Calculate the frequency of each element
+    frequency_dict = Counter(classes)
+    
+    # Print the result
+    num_ticks= len(classes)
+    print(f"Total: {num_ticks}")
+    for element, frequency in frequency_dict.items():
+        percent=0
+        position= element - len(down_pcts)
+        if position < 0:
+            percent= -1 * down_pcts[-1 * position - 1] 
+        elif position > 0:
+            percent= up_pcts[position - 1]
+            
+        print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times {percent:>3}% change ({element})")

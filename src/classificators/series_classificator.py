@@ -1,36 +1,33 @@
 import math
-from typing import List
+from typing import Callable, List
 
 from classificators.validation_utils import are_values_greater, is_mono_ascending
 
-class PercentClassificator:
-    """
-    Calculates a numeric value for each value in a series depending on the percentage difference 
-    between an element in the series and the 'window' number of elements after it
-    """
+class SeriesClassificator:
     def __init__(
         self,
+        find_first_class: Callable, 
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
         trace_print= False,
     ):
+        self.generate_classes = find_first_class
         self.window = window
         self.down_pcts = down_pcts
         self.up_pcts = up_pcts
         self.trace_print = trace_print
 
-    def calculate(self, data):
-        classes = find_first_up_down(
+    def classify(self, data):
+        classes = self.generate_classes(
             data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
 
-        # Last self.window positions can not be calculated 
-        classes += [math.nan for _ in range(self.window)]
+        classes += [math.nan for _ in range(len(data) - len(classes))]
             
         return classes
 
-def find_first_up_down(
+def find_first_down_up(
     data: List[float],
     window: int,
     down_pcts: List[float],
@@ -38,17 +35,19 @@ def find_first_up_down(
     trace_print= False,
 ) -> List[int]:
     """
-    Calculates the maximum threshold reached in the window period after each data point
-    If arrives to many positive threshold (without negatives) the class returned should be the maximum threshold achieved.
-    If arrives to positive and negative threshold (or the other way around ) the class returned should be the first achieved. Later inspections in time should give the other value direction.
+    Finds first down_pcts/up_pcts reached in the data window period after each data point.
+    If arrives to multiple up_pcts values (without any down_pcts) the class returned should be the maximum up_pcts achieved. (same with down_pcts)
+    If arrives to a down_pcts and up_pcts in the window period (or the other way around) the class returned should be the first achieved in the period.
+    If no value of down_pcts nor up_pcts is reached, returns len(down_pcts) value.
 
     Args:
-        data: prices in ascending date order.
-        window: number of items after the data item where the down_pcts or up_pcts is going to be tested.
-        down_pcts: percentage from a data item point to reach (positive value).
-        up_pcts: percentage from a data item point to reach.
+        data: prices in date ascending order.
+        window: number of items after the data item where the up_pcts or down_pcts is going to be searched.
+        down_pcts: percentage from a data item point to reach (positive value). Values ascending order.
+        up_pcts: percentage from a data item point to reach. Values ascending order.
     Returns:
-      Array with the maximum threshold reached in the window period after each data point
+        Index indicating the up_pcts or down_pcts threshold reached in the window period after each data point.
+        Index starts at 0, corresponding to len(down_pcts)-1 value and ends at len(down_pcts) + len(up_pcts) - 1
     """
     validate_input(data, window, down_pcts, up_pcts)
 

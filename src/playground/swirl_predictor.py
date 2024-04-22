@@ -8,7 +8,7 @@ import classificators.data_gen as data_gen
 RANDOM_SEED = 42
 NUM_CLASSES = 4
 
-X, y = data_gen.generate_data(RANDOM_SEED)
+X, y = data_gen.generate_spiral(RANDOM_SEED)
 
 # Turn data into tensors
 X = torch.from_numpy(X).type(torch.float) # features as float32

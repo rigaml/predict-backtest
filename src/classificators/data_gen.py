@@ -1,7 +1,9 @@
-# Code for creating a spiral dataset from CS231n
 import numpy as np
 
-def generate_data(random_seed):
+def generate_spiral(random_seed):
+    """
+    Creating a spiral dataset from https://cs231n.stanford.edu/ 
+    """
     np.random.seed(random_seed)
     N = 100 # number of points per class
     D = 2 # dimensionality
