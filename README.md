@@ -1,6 +1,14 @@
 ## SETUP
 
-Open Jupyter Notebook: In Windows open Anaconda Prompt:
+Strip out Jupyter Notebooks cells execution output
+C:\Users\User\AAAMio\Projects\riga-stock-nn\.git\hooks\pre-commit.bat
+
+
+
+### Training
+
+Open Jupyter Notebook:
+In Windows open Anaconda Prompt:
 
 ```powershell
 cd C:\Users\User\AAAMio\Projects\PyTorch
@@ -8,12 +16,20 @@ conda activate pytorch
 python -m jupyter notebook
 ```
 
-In the web browser open the right Jupyter notebook
+In web browser open the right Jupyter notebook
 
-Run app: In Windows open Anaconda Prompt:
+### Test
+
+Run app:
+In Windows open Anaconda Prompt:
+
+````powershell
 cd C:\Users\User\AAAMio\Projects\riga-stock-backpy-run\src
 conda activate pytorch
 python single-run-nn.py
+```powershell
+
+
 
 ## TODO
 
@@ -336,7 +352,7 @@ Doc: Mio\Learn\Computers\Tutorials\python-tutorial.txt
 pytest
 pytest path/to/test_file.py::test_name
 pytest -k <matching-test-function-name>
-```
+````
 
 If getting: ModuleNotFoundError: No module named 'modules'
 
