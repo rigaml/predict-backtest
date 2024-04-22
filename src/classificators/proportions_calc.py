@@ -2,6 +2,7 @@ import math
 from typing import List
 
 from classificators.validation_utils import is_mono_ascending
+from classificators.list_utils import calculate_proportions
 
 class ProportionsCalc:
     def __init__(
@@ -45,18 +46,6 @@ def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
     rolling_avgs.append(rolling_avg)
 
     return rolling_avgs
-
-@staticmethod
-def calculate_proportions(prices: List[float], averages: List[List[float]]) -> List[List[float]]:
-    list_of_list_proportions= []
-    for averages in averages:
-        list_proportions= []
-        for idx in range(len(averages)):
-            list_proportions.append((prices[idx]-averages[idx])/prices[idx])
-
-        list_of_list_proportions.append(list_proportions)
-
-    return list_of_list_proportions
 
 def validate_input(data: List[float], windows: List[int]):
     """
