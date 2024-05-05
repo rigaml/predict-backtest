@@ -3,18 +3,6 @@ from typing import List
 from collections import Counter
 
 @staticmethod
-def calculate_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
-    list_of_list_proportions= []
-    for averages in averages_list:
-        list_proportions= []
-        for idx in range(len(averages)):
-            list_proportions.append((prices[idx]-averages[idx])/prices[idx])
-
-        list_of_list_proportions.append(list_proportions)
-
-    return list_of_list_proportions
-
-@staticmethod
 def get_indexes_value(lst: List[int], value: int, n: int) -> List[int]:
     '''
     Given a list of integers of length M randomly get N positions where it contain value V
@@ -77,3 +65,37 @@ def display_frequency_numbers(classes, down_pcts, up_pcts):
             percent= up_pcts[position - 1]
             
         print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times {percent:>3}% change ({element})")
+
+
+@staticmethod
+def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
+    rolling_avgs = []
+    current_sum = prices[0]
+    for i in range(1, window):
+        current_sum += prices[i]
+        rolling_avgs.append(math.nan)
+
+    for i in range(window, len(prices)):
+        rolling_avg = current_sum / window
+        rolling_avgs.append(rolling_avg)
+
+        current_sum = current_sum - prices[i - window] + prices[i]
+
+    # Add rolling average for last element
+    rolling_avg = current_sum / window
+    rolling_avgs.append(rolling_avg)
+
+    return rolling_avgs
+
+@staticmethod
+def calculate_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
+    list_of_list_proportions= []
+    for averages in averages_list:
+        list_proportions= []
+        for idx in range(len(averages)):
+            list_proportions.append((prices[idx]-averages[idx])/prices[idx])
+
+        list_of_list_proportions.append(list_proportions)
+
+    return list_of_list_proportions
+

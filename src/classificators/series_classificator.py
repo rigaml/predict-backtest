@@ -6,20 +6,20 @@ from classificators.validation_utils import are_values_greater, is_mono_ascendin
 class SeriesClassificator:
     def __init__(
         self,
-        find_first_class: Callable, 
+        classificator: Callable, 
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
         trace_print= False,
     ):
-        self.generate_classes = find_first_class
+        self.classificator = classificator
         self.window = window
         self.down_pcts = down_pcts
         self.up_pcts = up_pcts
         self.trace_print = trace_print
 
     def classify(self, data):
-        classes = self.generate_classes(
+        classes = self.classificator(
             data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
 
