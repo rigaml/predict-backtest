@@ -2,7 +2,7 @@ import math
 from typing import List
 
 from classificators.validation_utils import is_mono_ascending
-from classificators.list_utils import calculate_proportions
+from classificators.list_utils import calculate_proportions, calculate_rolling_average
 
 class ProportionsCalc:
     def __init__(
@@ -11,41 +11,19 @@ class ProportionsCalc:
     ):
         self.windows = windows
 
-    def calculate(self, prices):
+    def calculate(self, prices) -> List[List[float]]:
         """
         Calculates the averages of the prices for the windows provided and then the proportion from the last price
         """
-
         validate_input(prices, self.windows)
 
         windows_rolling_avg = []
         for window in self.windows:
             windows_rolling_avg.append(calculate_rolling_average(prices, window))
 
-        proportions= calculate_proportions(prices, windows_rolling_avg)
+        proportions = calculate_proportions(prices, windows_rolling_avg)
 
         return proportions
-            
-
-@staticmethod
-def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
-    rolling_avgs = []
-    current_sum= prices[0]
-    for i in range(1, window):
-        current_sum += prices[i]
-        rolling_avgs.append(math.nan)
-
-    for i in range(window, len(prices)):
-        rolling_avg = current_sum / window
-        rolling_avgs.append(rolling_avg)
-
-        current_sum = current_sum - prices[i - window] + prices[i]
-
-    # Add rolling average for last element
-    rolling_avg = current_sum / window
-    rolling_avgs.append(rolling_avg)
-
-    return rolling_avgs
 
 def validate_input(data: List[float], windows: List[int]):
     """
