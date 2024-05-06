@@ -1,4 +1,3 @@
-import math
 from typing import List
 
 from classificators.validation_utils import is_mono_ascending

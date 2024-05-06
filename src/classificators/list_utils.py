@@ -1,3 +1,4 @@
+import math
 import random
 from typing import List
 from collections import Counter
@@ -56,7 +57,7 @@ def display_frequency_numbers(classes, down_pcts, up_pcts):
     # Print the result
     num_ticks= len(classes)
     print(f"Total: {num_ticks}")
-    for element, frequency in frequency_dict.items():
+    for element, frequency in sorted(frequency_dict.items(), key=lambda d: d[0]):
         percent=0
         position= element - len(down_pcts)
         if position < 0:
