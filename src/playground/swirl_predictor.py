@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from torchmetrics import Accuracy
 
-import classificators.data_gen as data_gen
+import playground.data_gen as data_gen
 
 RANDOM_SEED = 42
 NUM_CLASSES = 4
