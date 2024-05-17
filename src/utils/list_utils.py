@@ -3,6 +3,7 @@ import random
 from typing import List
 from collections import Counter
 
+
 @staticmethod
 def get_indexes_value(lst: List[int], value: int, n: int) -> List[int]:
     '''
@@ -15,6 +16,7 @@ def get_indexes_value(lst: List[int], value: int, n: int) -> List[int]:
 
     return selected_positions
 
+
 @staticmethod
 def remove_indexes(lst: List[int], indexes: List[int]) -> List[int]:
     '''
@@ -23,6 +25,7 @@ def remove_indexes(lst: List[int], indexes: List[int]) -> List[int]:
     # Create a new list 'b' without the elements at the specified indices
     result = [lst[i] for i in range(len(lst)) if i not in indexes]
     return result
+
 
 @staticmethod
 def convert_binary(lst: List[int], value_one: int) -> List[int]:
@@ -50,22 +53,33 @@ def normalize_list(input_list):
 
 
 @staticmethod
-def display_frequency_numbers(classes, down_pcts, up_pcts):
-    # Calculate the frequency of each element
+def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pcts: List[float]):
+    # Calculate the frequency of each class
     frequency_dict = Counter(classes)
-    
+
     # Print the result
-    num_ticks= len(classes)
+    num_ticks = len(classes)
     print(f"Total: {num_ticks}")
     for element, frequency in sorted(frequency_dict.items(), key=lambda d: d[0]):
-        percent=0
-        position= element - len(down_pcts)
+        percent = 0
+        position = element - len(down_pcts)
         if position < 0:
-            percent= -1 * down_pcts[-1 * position - 1] 
+            percent = -1 * down_pcts[-1 * position - 1]
         elif position > 0:
-            percent= up_pcts[position - 1]
-            
+            percent = up_pcts[position - 1]
+
         print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times {percent:>3}% change ({element})")
+
+
+@staticmethod
+def display_frequency_values(values: List[int]):
+    # Calculate the frequency of each value
+    frequency_dict = Counter(values)
+
+    num_ticks = len(values)
+    print(f"Total: {num_ticks}")
+    for element, frequency in sorted(frequency_dict.items(), key=lambda d: d[0]):
+        print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times ({element})")
 
 
 @staticmethod
@@ -88,15 +102,15 @@ def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
 
     return rolling_avgs
 
+
 @staticmethod
 def calculate_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
-    list_of_list_proportions= []
+    list_of_list_proportions = []
     for averages in averages_list:
-        list_proportions= []
-        for idx in range(len(averages)):
-            list_proportions.append((prices[idx]-averages[idx])/prices[idx])
+        list_proportions = []
+        for idx, average in enumerate(averages):
+            list_proportions.append((prices[idx] - average)/prices[idx])
 
         list_of_list_proportions.append(list_proportions)
 
     return list_of_list_proportions
-
