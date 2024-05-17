@@ -1,7 +1,7 @@
 from typing import List
 
-from classificators.validation_utils import is_mono_ascending
-from classificators.list_utils import calculate_proportions, calculate_rolling_average
+from utils.validation_utils import is_mono_ascending
+from utils.list_utils import calculate_proportions, calculate_rolling_average
 
 class ProportionsCalc:
     def __init__(
