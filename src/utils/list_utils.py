@@ -1,34 +1,57 @@
 import math
 import random
-from typing import List
+from typing import List, TypeVar
 from collections import Counter
+
+T = TypeVar('T')
 
 
 @staticmethod
-def get_indexes_value(lst: List[int], value: int, n: int) -> List[int]:
+def get_indexes_value(lst: List[T], value: T, n: int) -> List[int]:
     '''
-    Given a list of integers of length M randomly get N positions where it contain value V
+    Given a list, get n randomly positions where list contains 'value'
+    Parameters:
+    - lst: list of 
+    - value: value to find in the list
+    - n: number of positions to select
     '''
     positions = [i for i, x in enumerate(lst) if x == value]
 
-    # Randomly select N positions
+    if len(positions) < n:
+        raise ValueError(f"Found {positions} positions with value: {value} but required {n}")
+
     selected_positions = random.sample(positions, min(n, len(positions)))
 
     return selected_positions
 
 
 @staticmethod
-def remove_indexes(lst: List[int], indexes: List[int]) -> List[int]:
+def remove_indexes(lst: List[T], indexes: List[int]) -> List[T]:
     '''
-    Given a list of integers 'r' that are indexes on list 'a' create a new list 'b' removing from 'a' the indexes in 'r' 
+    Given a 'lst' and a list of indexes to remove, return a new list removing the indexes. 
     '''
-    # Create a new list 'b' without the elements at the specified indices
     result = [lst[i] for i in range(len(lst)) if i not in indexes]
     return result
 
 
 @staticmethod
-def convert_binary(lst: List[int], value_one: int) -> List[int]:
+def duplicate_values(lst: List[T], indexes: List[int]) -> List[T]:
+    '''
+    Given a 'lst' and a list of indices to duplicate, 
+    return list adding duplicated positions at the end of the list. 
+    '''
+    result = list(lst)
+    for index in indexes:
+        result.append(lst[index])
+
+    return result
+
+
+@staticmethod
+def convert_binary(lst: List[T], value_one: T) -> List[int]:
+    """
+    Given 'lst' generates a new list with 1 if value matches 'value_one' and '0' otherwise.
+    """
     result = [1 if x == value_one else 0 for x in lst]
     return result
 
