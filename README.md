@@ -29,7 +29,10 @@ conda activate pytorch
 python single-run-nn.py
 ```powershell
 
-
+Unit tests: In Powershell window
+```
+pytest
+```
 
 ## TODO
 
