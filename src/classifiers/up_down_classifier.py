@@ -1,10 +1,8 @@
-import math
-import numpy as np
-
 from typing import List
 
 from classifiers.base_classifier import BaseClassifier
 from utils.validation_utils import are_over_limit, is_mono_ascending
+
 
 class UpsDownsClassifier(BaseClassifier):
     def __init__(
@@ -12,7 +10,7 @@ class UpsDownsClassifier(BaseClassifier):
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
-        trace_print= False
+        trace_print=False
     ):
         validate_init(window, down_pcts, up_pcts)
 
@@ -21,18 +19,19 @@ class UpsDownsClassifier(BaseClassifier):
         self.up_pcts = up_pcts
         self.trace_print = trace_print
 
-    def classify(self, data):
+    def classify(self, data) -> List[int]:
         validate_classify(data, self.window)
 
         classes = find_down_up_classes(
             data, self.window, self.down_pcts, self.up_pcts, self.trace_print
         )
 
-        classes.extend([math.nan] * (len(data) - len(classes)))
-            
+        classes.extend([-1] * (len(data) - len(classes)))
+
         return classes
 
-def validate_init( window, down_pcts, up_pcts):
+
+def validate_init(window, down_pcts, up_pcts):
     """
     Validates input parameters
     """
@@ -40,7 +39,8 @@ def validate_init( window, down_pcts, up_pcts):
         raise ValueError(f"'window' should be at least 2 (provided: {window})")
     if len(down_pcts) < 1 or len(up_pcts) < 1:
         raise ValueError(
-            f"'down_pcts' and 'up_pcts' should be at least 1 (provided: {len(down_pcts)} and {len(up_pcts)} respectively)"
+            "'down_pcts' and 'up_pcts' should be at least 1 "
+            f"(provided:{len(down_pcts)} and {len(up_pcts)} respectively)"
         )
     if not is_mono_ascending(down_pcts) or not is_mono_ascending(up_pcts):
         raise ValueError(
@@ -50,6 +50,7 @@ def validate_init( window, down_pcts, up_pcts):
         raise ValueError(
             f"'down_pcts' and 'up_pcts' values should greater than 0"
         )
+
 
 def validate_classify(data, window):
     if len(data) <= window:
@@ -67,12 +68,14 @@ def find_down_up_classes(
     window: int,
     down_pcts: List[float],
     up_pcts: List[float],
-    trace_print= False,
+    trace_print=False,
 ) -> List[int]:
     classes = [0] * (len(data) - window)
 
-    if trace_print: print(f"\ndata={data}")
-    if trace_print: print(f"out loop from 0 to {len(data) - window - 1}")
+    if trace_print:
+        print(f"\ndata={data}")
+        print(f"out loop from 0 to {len(data) - window - 1}")
+
     for data_idx in range(len(data) - window):
         item_class = find_down_up_class_window(data, window, down_pcts, up_pcts, data_idx, trace_print)
         classes[data_idx] = item_class
@@ -114,14 +117,18 @@ def find_down_up_class_window(
     up_pct_idx_max = 0
     up_pct_found = False
 
-    if trace_print: print(f"in loop from {data_idx + 1} to {data_idx + 1 + window - 1}")
+    if trace_print:
+        print(f"in loop from {data_idx + 1} to {data_idx + 1 + window - 1}")
     for window_idx in range(data_idx + 1, data_idx + 1 + window):
         pct_diff = (data[window_idx] - inital_value) * 100 / inital_value
-        if trace_print: print(
-            f"window initial={inital_value} value={data[window_idx]} window_idx={window_idx} pct_down={pct_diff:.2f}"
-        )        
+        if trace_print:
+            print(
+                f"window initial={inital_value} "
+                f"value={data[window_idx]} window_idx={window_idx} pct_down={pct_diff:.2f}"
+            )
         for pct_idx in range(down_pct_idx_max, len(down_pcts)):
-            if trace_print: print(f"down_pcts idx: {pct_idx} {down_pcts[pct_idx]}")
+            if trace_print:
+                print(f"down_pcts idx: {pct_idx} {down_pcts[pct_idx]}")
             if pct_diff * -1 >= down_pcts[pct_idx]:
                 if up_pct_found:
                     return item_class
@@ -131,7 +138,8 @@ def find_down_up_class_window(
                 item_class = neutral_class_index - pct_idx - 1
 
         for pct_idx in range(up_pct_idx_max, len(up_pcts)):
-            if trace_print: print(f"up_pcts idx: {pct_idx} {up_pcts[pct_idx]}")
+            if trace_print:
+                print(f"up_pcts idx: {pct_idx} {up_pcts[pct_idx]}")
             if pct_diff >= up_pcts[pct_idx]:
                 if down_pct_found:
                     return item_class
@@ -147,4 +155,3 @@ def find_down_up_class_window(
             return item_class
 
     return item_class
-
