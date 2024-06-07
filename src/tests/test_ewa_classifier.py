@@ -75,7 +75,7 @@ def test_ewa_classifier_when_data_values_not_greater_than_zero_raises_exception(
         classifier.classify(data)
 
 
-def test_ewa_classifier_when_valid_parameters_returns_classes_with_nan_window():
+def test_ewa_classifier_when_valid_parameters_returns_classes_with_minus1s_window():
     data = [5.2, 4.9, 5.5, 4.9, 5.2]
     window = 2
     down_pcts = [5.]
@@ -85,7 +85,7 @@ def test_ewa_classifier_when_valid_parameters_returns_classes_with_nan_window():
     classifier = ec.EwaClassifier(window, down_pcts, up_pcts, alpha)
     classes = classifier.classify(data)
 
-    expected = [1, 1, 0, nan, nan]
+    expected = [1, 1, 0, -1, -1]
     assert classes == expected
 
 
