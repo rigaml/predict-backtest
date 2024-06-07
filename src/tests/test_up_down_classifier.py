@@ -82,7 +82,7 @@ def test_up_down_classifier_when_data_values_not_greater_than_zero_raises_except
     with pytest.raises(ValueError, match="'data' values should be greater than 0"):
         classifier.classify(data)
 
-def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_nan_window():
+def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_minus1s_window():
     data = [3, 2.9, 3.0, 2.8, 2.6]
     window = 2
     down_pcts = [10, 20]
@@ -91,7 +91,7 @@ def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_na
     classifier= udc.UpsDownsClassifier(window, down_pcts, up_pcts)
     classes = classifier.classify(data)
     
-    expected = [2, 2, 1, nan, nan]
+    expected = [2, 2, 1, -1, -1]
     assert classes == expected
 
 @pytest.mark.parametrize(
