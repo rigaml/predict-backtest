@@ -1,4 +1,3 @@
-import math
 import numpy as np
 
 from typing import List
@@ -6,31 +5,33 @@ from typing import List
 from classifiers.base_classifier import BaseClassifier
 from utils.validation_utils import are_over_limit
 
+
 class EwaClassifier(BaseClassifier):
     def __init__(
         self,
         window: int,
         down_pcts: List[float],
         up_pcts: List[float],
-        alpha: float, 
+        alpha: float,
     ):
         validate_init(window, down_pcts, up_pcts, alpha)
 
         self.window = window
         self.down_pcts = down_pcts
         self.up_pcts = up_pcts
-        self.alpha= alpha
+        self.alpha = alpha
 
-    def classify(self, data):
+    def classify(self, data) -> List[int]:
         validate_classify(data, self.window)
 
         classes = find_ewa_classes(
             data, self.window, self.down_pcts, self.up_pcts, self.alpha
         )
 
-        classes.extend([math.nan] * (len(data) - len(classes)))
-            
+        classes.extend([-1] * (len(data) - len(classes)))
+
         return classes
+
 
 def validate_init(window: int, down_pcts: float, up_pcts: float, alpha: float):
     """
@@ -46,6 +47,7 @@ def validate_init(window: int, down_pcts: float, up_pcts: float, alpha: float):
         raise ValueError(
             f"'alpha' should be between 0 and 1 (provided: {alpha})"
         )
+
 
 def validate_classify(data, window):
     if len(data) <= window:
@@ -63,22 +65,22 @@ def find_ewa_classes(
     window: int,
     down_pct: float,
     up_pct: float,
-    alpha: float, 
+    alpha: float,
 ) -> List[int]:
     classes = [0] * (len(data) - window)
     len_down_pcts = len(down_pct)
     ewas = calculate_ewas(data, alpha)
 
     for data_idx in range(len(data) - window):
-        ewas_window_value= ewas[data_idx + window]
+        ewas_window_value = ewas[data_idx + window]
         pct_diff = (ewas_window_value - data[data_idx]) * 100 / data[data_idx]
         if pct_diff <= -1 * down_pct[0]:
-            classes[data_idx]= len_down_pcts - 1
+            classes[data_idx] = len_down_pcts - 1
         elif pct_diff >= up_pct[0]:
-            classes[data_idx]= len_down_pcts + 1
+            classes[data_idx] = len_down_pcts + 1
         else:
-            classes[data_idx]= len_down_pcts
-    
+            classes[data_idx] = len_down_pcts
+
     return classes
 
 
@@ -99,9 +101,10 @@ def calculate_ewas(
     ewas = [0.0] * len(data)
     ewas[0] = data[0]
     for i in range(1, len(data)):
-        ewas[i]= (1 - alpha) * ewas[i-1] + alpha * data[i]
-    
+        ewas[i] = (1 - alpha) * ewas[i-1] + alpha * data[i]
+
     return ewas
+
 
 def calculate_ewa_alpha(window: int, reach_pct: float) -> float:
     """

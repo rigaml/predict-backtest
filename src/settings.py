@@ -5,10 +5,10 @@ import json
 
 CURRENT_COMPUTER = "powershell"
 BASE_FOLDER_DICT = {
-    "vs-code-ubuntu": "./", 
+    "vs-code-ubuntu": "./",
     "powershell": "c:\\Users\\User\\AAAMio\\Projects\\riga-stock-nn\\src\\"
-    }
-BASE_FOLDER =  BASE_FOLDER_DICT[CURRENT_COMPUTER]
+}
+BASE_FOLDER = BASE_FOLDER_DICT[CURRENT_COMPUTER]
 DATA_FOLDER = BASE_FOLDER + "/data"
 
 API_NAME = "tiingo"
@@ -22,9 +22,10 @@ RESEARCH_DATABASE_PATH_NAME = f"{DATA_FOLDER}/{RESEARCH_DATABASE_NAME}.db"
 
 DATABASE_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
+
 def get_secret(key: str):
     # File config.json added to Keepass entry for Tiingo
-    with open(BASE_FOLDER + "config.json", "r") as config_file:
+    with open(BASE_FOLDER + "config.json", "r", encoding="utf-8") as config_file:
         config = json.load(config_file)
         secret_value = config[f"{key}"]
     return secret_value
