@@ -83,15 +83,17 @@ def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pct
     num_ticks = len(classes)
     print(f"Total: {num_ticks}")
     for value, frequency in sorted(frequency_dict.items(), key=lambda d: d[0]):
-        percent = 0
-        if value > 0:
+        percent = "n/a"
+        if value >= 0:
             position = value - len(down_pcts)
             if position < 0:
                 percent = -1 * down_pcts[-1 * position - 1]
             elif position > 0:
                 percent = up_pcts[position - 1]
+            else:
+                percent = 0
 
-        print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times {percent:>3}% change ({value})")
+        print(f"{(frequency/num_ticks*100):>6.2f}% {frequency:>6} times {percent:>4} change ({value})")
 
 
 @staticmethod
