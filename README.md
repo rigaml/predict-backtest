@@ -3,8 +3,6 @@
 Strip out Jupyter Notebooks cells execution output
 C:\Users\User\AAAMio\Projects\riga-stock-nn\.git\hooks\pre-commit.bat
 
-
-
 ### Training
 
 Open Jupyter Notebook:
@@ -23,15 +21,28 @@ In web browser open the right Jupyter notebook
 Run app:
 In Windows open Anaconda Prompt:
 
-````powershell
+```powershell
 cd C:\Users\User\AAAMio\Projects\riga-stock-backpy-run\src
 conda activate pytorch
 python single-run-nn.py
-```powershell
-
-Unit tests: In Powershell window
-```
 pytest
+```
+
+### Remove cells output before pushing a Jupyter notebook
+
+-In the notebook, click on Clear All Output
+-In the console, execute
+
+```powershell
+    nbstripout .\src\notebooks\stock_up_down\single_class.ipynb
+    nbstripout .\src\notebooks\stock_up_down\single_class_test.ipynb
+    nbstripout .\src\notebooks\stock_up_down\multiple_classes.ipynb
+```
+
+It should be installed in your environment first
+
+```powershell
+    pip install nbstripout
 ```
 
 ## TODO
@@ -355,7 +366,7 @@ Doc: Mio\Learn\Computers\Tutorials\python-tutorial.txt
 pytest
 pytest path/to/test_file.py::test_name
 pytest -k <matching-test-function-name>
-````
+```
 
 If getting: ModuleNotFoundError: No module named 'modules'
 
