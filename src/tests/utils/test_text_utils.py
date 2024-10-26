@@ -1,6 +1,6 @@
 import pytest
 
-from utils.text_utils import extract_company, extract_days, extract_pcts, is_predict_up
+from src.utils.text_utils import extract_company, extract_days, extract_pcts, is_predict_up
 
 
 @pytest.mark.parametrize("input_str", [

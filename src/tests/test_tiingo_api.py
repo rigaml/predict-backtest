@@ -4,7 +4,7 @@ from unittest.mock import patch
 from datetime import datetime
 
 import requests
-from apis.tiingo_api import TiingoAPI
+from src.apis.tiingo_api import TiingoAPI
 
 
 class TestTiingoAPI(unittest.TestCase):
@@ -41,9 +41,10 @@ class TestTiingoAPI(unittest.TestCase):
     def test_download_ticker_404_error(self, mock_make_request, mock_build_url):
         """Test handling of 404 error during download."""
         mock_build_url.return_value = "http://example.com/data"
-        mock_make_request.side_effect = requests.exceptions.HTTPError(
-            response=mock.Mock(status_code=404)
-        )
+        mock_response = mock.Mock()
+        mock_response.status_code = 404
+        mock_make_request.raise_for_status.side_effect = requests.exceptions.HTTPError(response=mock_response)
+        mock_make_request.return_value = None
 
         result = self.api.download_ticker(
             "AAPL",

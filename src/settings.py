@@ -1,15 +1,14 @@
-# Executing inside a Docker container
-# SELECT: "vs-code-ubuntu" or "docker" if executing inside VS Code Terminal Ubuntu or outside VS Code in Docker
+# File config.json added to Keepass entry for Tiingo
+import os
 import json
 
+from utils.file_utils import get_project_root
 
-CURRENT_COMPUTER = "powershell"
-BASE_FOLDER_DICT = {
-    "vs-code-ubuntu": "./",
-    "powershell": "c:\\Users\\User\\AAAMio\\Projects\\riga-stock-nn\\src\\"
-}
-BASE_FOLDER = BASE_FOLDER_DICT[CURRENT_COMPUTER]
+BASE_FOLDER = get_project_root()
 DATA_FOLDER = BASE_FOLDER + "/data"
+
+# File config.json added to Keepass entry for Tiingo
+SECRETS_FILE = "config.json"
 
 API_NAME = "tiingo"
 SAMPLING_INTERVALS = 15
@@ -24,8 +23,7 @@ DATABASE_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
 def get_secret(key: str):
-    # File config.json added to Keepass entry for Tiingo
-    with open(BASE_FOLDER + "config.json", "r", encoding="utf-8") as config_file:
+    with open(BASE_FOLDER + "/" + SECRETS_FILE, "r", encoding="utf-8") as config_file:
         config = json.load(config_file)
         secret_value = config[f"{key}"]
     return secret_value
