@@ -1,7 +1,5 @@
 import pytest
-from datetime import datetime
-from unittest.mock import patch
-from src.utils.date_time_utils import time_fraction_of_day
+from utils.date_time_utils import time_fraction_of_day
 
 
 @pytest.mark.parametrize("datetime_str, fraction_time", [

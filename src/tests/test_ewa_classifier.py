@@ -1,10 +1,8 @@
-import unittest
 import pytest
 
-from math import nan, isclose
+from math import isclose
 
-# import context
-from src.classifiers import ewa_classifier as ec
+from classifiers import ewa_classifier as ec
 
 
 def test_ewa_classifier_when_window_less_than_2_raises_exception():
