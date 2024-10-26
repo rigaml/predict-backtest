@@ -3,6 +3,38 @@
 Strip out Jupyter Notebooks cells execution output
 C:\Users\User\AAAMio\Projects\riga-stock-nn\.git\hooks\pre-commit.bat
 
+To use a particular Poetry environment, create a kernel pointing to the environment. Make sure that select your Poetry environment as a kernel.
+
+```bash
+poetry run python -m ipykernel install --user --name=<my_pytorch_env>
+```
+
+When you run the command to install the kernel (using ipykernel), it registers the kernel with Jupyter by creating a kernel specification file. These kernel spec files are typically stored in a user-specific directory. The exact location depends on your operating system:
+
+On Linux: `~/.local/share/jupyter/kernels/`
+
+You can actually see all the kernels Jupyter knows about by running this command:
+```bash
+poetry run jupyter kernelspec list
+```
+
+# Jupyter Notebook
+Install a Jupyter notebook so can open notebook from different locations
+
+## Steps
+
+If you don't have Jupyter Notebooks installed in your computer you can install it with: 
+```bash
+python -m venv jupyter_env
+source jupyter_env/bin/activate
+pip install jupyter
+```
+Once environment activated and Jupyter installed open it
+```bash
+jupyter notebook
+```
+On the top right hand side of the notebook select the kernel and then the required notebook in this project
+
 ### Training
 
 Open Jupyter Notebook:
@@ -15,6 +47,12 @@ python -m jupyter notebook
 ```
 
 In web browser open the right Jupyter notebook
+
+Installed [nbstripout](https://github.com/kynan/nbstripout) to clean Jupiter Notebooks output before commiting changes
+Executed command to clean Notebooks when  
+```bash
+nbstripout --install --attributes .gitattributes
+```
 
 ### Test
 
@@ -360,17 +398,16 @@ Last Loss: 0.06744 Acc: 97.29% | Test loss: 0.24610 Test acc: 93.61%
 ### Run PyTests
 
 -In PowerShell add current folder to PYTHONPATH
+
+```powershell
+$Env:PYTHONPATH = ".\"
+Echo $Env:PYTHONPATH
+```
+
 Doc: Mio\Learn\Computers\Tutorials\python-tutorial.txt
 
 ```bash
 pytest
 pytest path/to/test_file.py::test_name
 pytest -k <matching-test-function-name>
-```
-
-If getting: ModuleNotFoundError: No module named 'modules'
-
-```powershell
-$Env:PYTHONPATH = ".\"
-Echo $Env:PYTHONPATH
 ```
