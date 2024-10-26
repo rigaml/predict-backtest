@@ -1,16 +1,12 @@
-import unittest
 import pytest
 
-from math import nan
-
-# import context
-from src.classifiers import up_down_classifier as udc
+from classifiers import up_down_classifier as udc
 
 
 def test_up_down_classifier_when_window_less_than_2_raises_exception():
     window = 1
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     with pytest.raises(ValueError, match="'window' should be at least 2"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
@@ -32,8 +28,8 @@ def test_up_down_classifier_when_pcts_length_zero_raises_exception(down_pcts, up
 
 def test_up_down_classifier_when_down_pcts_not_ascending_raises_exception():
     window = 2
-    down_pcts = [20, 10]
-    up_pcts = [10, 20]
+    down_pcts = [20., 10.]
+    up_pcts = [10., 20.]
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should be in order monotonically ascendingly"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
@@ -41,8 +37,8 @@ def test_up_down_classifier_when_down_pcts_not_ascending_raises_exception():
 
 def test_up_down_classifier_when_up_pcts_not_ascending_raises_exception():
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [20, 10]
+    down_pcts = [10., 20.]
+    up_pcts = [20., 10.]
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should be in order monotonically ascendingly"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
@@ -50,8 +46,8 @@ def test_up_down_classifier_when_up_pcts_not_ascending_raises_exception():
 
 def test_up_down_classifier_when_down_pcts_not_greater_than_zero_raises_exception():
     window = 2
-    down_pcts = [-10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [-10., 20.]
+    up_pcts = [10., 20.]
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should greater than 0"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
@@ -59,18 +55,18 @@ def test_up_down_classifier_when_down_pcts_not_greater_than_zero_raises_exceptio
 
 def test_up_down_classifier_when_up_pcts_not_greater_than_zero_raises_exception():
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [-10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [-10., 20.]
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should greater than 0"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
 
 def test_up_down_classifier_classify_when_data_size_is_equal_or_less_than_window_raises_exception():
+    data = [3., 2.]
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
-    data = [3, 2]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
@@ -79,10 +75,10 @@ def test_up_down_classifier_classify_when_data_size_is_equal_or_less_than_window
 
 
 def test_up_down_classifier_when_data_values_not_greater_than_zero_raises_exception():
-    data = [3, -2, 5]
+    data = [3., -2., 5.]
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
@@ -93,8 +89,8 @@ def test_up_down_classifier_when_data_values_not_greater_than_zero_raises_except
 def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_minus1s_window():
     data = [3, 2.9, 3.0, 2.8, 2.6]
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
     classes = classifier.classify(data)
@@ -109,8 +105,8 @@ def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_mi
 )
 def test_find_down_up_classes_when_data_change_small_returns_neutral_class(data, expected):
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -132,8 +128,8 @@ def test_find_down_up_classes_when_1st_down_is_reached_returns_index_1st_down(
     data, expected
 ):
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -155,8 +151,8 @@ def test_find_down_up_classes_when_2nd_down_is_reached_returns_index_2nd_down(
     data, expected
 ):
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -178,8 +174,8 @@ def test_find_down_up_classes_when_1st_up_is_reached_returns_index_1st_up(
     data, expected
 ):
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -201,8 +197,8 @@ def test_find_down_up_classes_when_2nd_up_is_reached_returns_index_2nd_up(
     data, expected
 ):
     window = 2
-    down_pcts = [10, 20]
-    up_pcts = [10, 20]
+    down_pcts = [10., 20.]
+    up_pcts = [10., 20.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -219,8 +215,8 @@ def test_find_down_up_classes_when_down_is_reached_before_up_returns_index_down(
     data, expected
 ):
     window = 2
-    down_pcts = [50, 90]
-    up_pcts = [70]
+    down_pcts = [50., 90.]
+    up_pcts = [70.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -242,8 +238,8 @@ def test_find_down_up_classes_when_up_is_reached_before_down_returns_index_up(
     data, expected
 ):
     window = 2
-    down_pcts = [60]
-    up_pcts = [40, 80]
+    down_pcts = [60.]
+    up_pcts = [40., 80.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -260,8 +256,8 @@ def test_find_down_up_classes_when_up_is_reached_before_down_returns_index_up(
 )
 def test_find_down_up_classes_when_many_up_down_pcts_returns_correct_classes(data, expected):
     window = 3
-    down_pcts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    up_pcts = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    down_pcts = [10., 20., 30., 40., 50., 60., 70., 80., 90., 100.]
+    up_pcts = [10., 20., 30., 40., 50., 60., 70., 80., 90., 100.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts
@@ -349,8 +345,8 @@ def test_find_down_up_classes_when_many_up_down_pcts_returns_correct_classes(dat
 )
 def test_find_down_up_classes_when_long_window_returns_classes_minus_window_length(data, expected):
     window = 52
-    down_pcts = [3]
-    up_pcts = [7]
+    down_pcts = [3.]
+    up_pcts = [7.]
 
     classes = udc.find_down_up_classes(
         data, window, down_pcts, up_pcts

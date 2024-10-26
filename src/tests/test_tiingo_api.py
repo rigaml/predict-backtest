@@ -4,7 +4,7 @@ from unittest.mock import patch
 from datetime import datetime
 
 import requests
-from src.apis.tiingo_api import TiingoAPI
+from apis.tiingo_api import TiingoAPI
 
 
 class TestTiingoAPI(unittest.TestCase):

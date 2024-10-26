@@ -1,11 +1,11 @@
-from typing import List
 import pytest
 from unittest import mock
+
+from typing import List
 import pandas as pd
 from datetime import datetime, timedelta
 
-# import src.tests.context
-from src.data_sources import tiingo_repo as tr
+from data_sources import tiingo_repo as tr
 
 DAYS_DOWNLOAD = 30
 

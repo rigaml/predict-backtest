@@ -1,13 +1,13 @@
 import math
 import random
-from typing import List, TypeVar
+from typing import TypeVar
 from collections import Counter
 
 T = TypeVar('T')
 
 
 @staticmethod
-def get_indexes_value(lst: List[T], value: T, n: int) -> List[int]:
+def get_indexes_value(lst: list[T], value: T, n: int) -> list[int]:
     """
     Given a list, get n randomly positions where list contains 'value'
     Parameters:
@@ -26,7 +26,7 @@ def get_indexes_value(lst: List[T], value: T, n: int) -> List[int]:
 
 
 @staticmethod
-def remove_indexes(lst: List[T], indexes: List[int]) -> List[T]:
+def remove_indexes(lst: list[T], indexes: list[int]) -> list[T]:
     """
     Given a 'lst' and a list of indexes to remove, return a new list removing the indexes.
     """
@@ -35,10 +35,11 @@ def remove_indexes(lst: List[T], indexes: List[int]) -> List[T]:
 
 
 @staticmethod
-def duplicate_values(lst: List[T], indexes: List[int]) -> List[T]:
+def duplicate_values(lst: list[T], indexes: list[int]) -> list[T]:
     """
-    Given a 'lst' and a list of indices to duplicate,
-    return list adding duplicated positions at the end of the list.
+    Given a 'lst' duplicate the values at the indexes positions adding them to the end of the list.
+    Returns: 
+        New list with duplicated positions at the end.
     """
     result = list(lst)
     for index in indexes:
@@ -48,7 +49,7 @@ def duplicate_values(lst: List[T], indexes: List[int]) -> List[T]:
 
 
 @staticmethod
-def convert_binary(lst: List[T], value_one: T) -> List[int]:
+def convert_binary(lst: list[T], value_one: T) -> list[int]:
     """
     Given 'lst' generates a new list with 1 if value matches 'value_one' and '0' otherwise.
     """
@@ -76,7 +77,7 @@ def normalize_list(input_list):
 
 
 @staticmethod
-def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pcts: List[float]):
+def display_frequency_classes(classes: list[int], down_pcts: list[float], up_pcts: list[float]):
     """
     Calculate and displays the frequency of each class .
     """
@@ -99,7 +100,7 @@ def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pct
 
 
 @staticmethod
-def display_frequency_values(values: List[int]):
+def display_frequency_values(values: list[int]):
     """
     Calculates and displays the frequency of each value.
     """
@@ -112,7 +113,7 @@ def display_frequency_values(values: List[int]):
 
 
 @staticmethod
-def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
+def calculate_rolling_average(prices: list[float], window: int) -> list[float]:
     rolling_avgs = []
     current_sum = prices[0]
     for i in range(1, window):
@@ -133,7 +134,7 @@ def calculate_rolling_average(prices: List[float], window: int) -> List[float]:
 
 
 @staticmethod
-def calculate_proportions(prices: List[float], averages_list: List[List[float]]) -> List[List[float]]:
+def calculate_proportions(prices: list[float], averages_list: list[list[float]]) -> list[list[float]]:
     list_of_list_proportions = []
     for averages in averages_list:
         list_proportions = []
@@ -146,10 +147,10 @@ def calculate_proportions(prices: List[float], averages_list: List[List[float]])
 
 
 @staticmethod
-def slice_allowing_zeros(data, start_slice, end_slice):
+def safe_slice(data: list[T], start_slice: int, end_slice: int):
     """
-    Slice from begining and end using positive values.
-    Ignoring the slice value if zero or negative start_slice and end_slice values.
+    Given positive parameter values slice from begining and end.
+    If parameters are zero or negative ignores the values.
     """
     start = start_slice if start_slice > 0 else None
     end = -end_slice if end_slice > 0 else None

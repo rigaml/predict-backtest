@@ -1,5 +1,4 @@
 # File config.json added to Keepass entry for Tiingo
-import os
 import json
 
 from utils.file_utils import get_project_root
