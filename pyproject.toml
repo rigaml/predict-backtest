@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "predict-backtest"
+version = "0.1.0"
+description = "Using PyTorch and backtesting packages."
+authors = ["rigaml <r.gmencia@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+torch = "^2.5.0"
+torchvision = "^0.20.0"
+torchaudio = "^2.5.0"
+ipykernel = "^6.29.5"
+requests = "^2.32.3"
+pandas = "^2.2.3"
+matplotlib = "^3.9.2"
+torchmetrics = "^1.5.1"
+mlxtend = "^0.23.1"
+
+
+[tool.poetry.group.dev.dependencies]
+nbstripout = "^0.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

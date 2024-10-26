@@ -3,6 +3,7 @@ from typing import List
 from utils.validation_utils import is_mono_ascending
 from utils.list_utils import calculate_proportions, calculate_rolling_average
 
+
 class ProportionsCalc:
     def __init__(
         self,
@@ -13,6 +14,7 @@ class ProportionsCalc:
     def calculate(self, prices) -> List[List[float]]:
         """
         Calculates the averages of the prices for the windows provided and then the proportion from the last price
+        Returns a list for each window value with the same length as the input data.
         """
         validate_input(prices, self.windows)
 
@@ -23,6 +25,7 @@ class ProportionsCalc:
         proportions = calculate_proportions(prices, windows_rolling_avg)
 
         return proportions
+
 
 def validate_input(data: List[float], windows: List[int]):
     """

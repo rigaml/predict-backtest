@@ -1,6 +1,6 @@
 import pytest
 
-from utils.list_utils import duplicate_values
+from src.utils.list_utils import duplicate_values
 
 
 @pytest.mark.parametrize("indexes, expected", [

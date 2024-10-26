@@ -3,8 +3,8 @@ import pytest
 
 from math import nan, isclose
 
-import context
-from classifiers import ewa_classifier as ec
+# import context
+from src.classifiers import ewa_classifier as ec
 
 
 def test_ewa_classifier_when_window_less_than_2_raises_exception():
