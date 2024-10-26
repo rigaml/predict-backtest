@@ -8,13 +8,13 @@ T = TypeVar('T')
 
 @staticmethod
 def get_indexes_value(lst: List[T], value: T, n: int) -> List[int]:
-    '''
+    """
     Given a list, get n randomly positions where list contains 'value'
     Parameters:
-    - lst: list of 
+    - lst: list of
     - value: value to find in the list
     - n: number of positions to select
-    '''
+    """
     positions = [i for i, x in enumerate(lst) if x == value]
 
     if len(positions) < n:
@@ -27,19 +27,19 @@ def get_indexes_value(lst: List[T], value: T, n: int) -> List[int]:
 
 @staticmethod
 def remove_indexes(lst: List[T], indexes: List[int]) -> List[T]:
-    '''
-    Given a 'lst' and a list of indexes to remove, return a new list removing the indexes. 
-    '''
+    """
+    Given a 'lst' and a list of indexes to remove, return a new list removing the indexes.
+    """
     result = [lst[i] for i in range(len(lst)) if i not in indexes]
     return result
 
 
 @staticmethod
 def duplicate_values(lst: List[T], indexes: List[int]) -> List[T]:
-    '''
-    Given a 'lst' and a list of indices to duplicate, 
-    return list adding duplicated positions at the end of the list. 
-    '''
+    """
+    Given a 'lst' and a list of indices to duplicate,
+    return list adding duplicated positions at the end of the list.
+    """
     result = list(lst)
     for index in indexes:
         result.append(lst[index])
@@ -77,7 +77,9 @@ def normalize_list(input_list):
 
 @staticmethod
 def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pcts: List[float]):
-    # Calculate the frequency of each class
+    """
+    Calculate and displays the frequency of each class .
+    """
     frequency_dict = Counter(classes)
 
     num_ticks = len(classes)
@@ -98,7 +100,9 @@ def display_frequency_classes(classes: List[int], down_pcts: List[float], up_pct
 
 @staticmethod
 def display_frequency_values(values: List[int]):
-    # Calculate the frequency of each value
+    """
+    Calculates and displays the frequency of each value.
+    """
     frequency_dict = Counter(values)
 
     num_ticks = len(values)
@@ -139,3 +143,15 @@ def calculate_proportions(prices: List[float], averages_list: List[List[float]])
         list_of_list_proportions.append(list_proportions)
 
     return list_of_list_proportions
+
+
+@staticmethod
+def slice_allowing_zeros(data, start_slice, end_slice):
+    """
+    Slice from begining and end using positive values.
+    Ignoring the slice value if zero or negative start_slice and end_slice values.
+    """
+    start = start_slice if start_slice > 0 else None
+    end = -end_slice if end_slice > 0 else None
+
+    return data[start:end]

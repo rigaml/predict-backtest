@@ -3,8 +3,8 @@ import pytest
 
 from math import nan
 
-import context
-from classifiers import up_down_classifier as udc
+# import context
+from src.classifiers import up_down_classifier as udc
 
 
 def test_up_down_classifier_when_window_less_than_2_raises_exception():
@@ -15,9 +15,10 @@ def test_up_down_classifier_when_window_less_than_2_raises_exception():
     with pytest.raises(ValueError, match="'window' should be at least 2"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
+
 @pytest.mark.parametrize(
     "down_pcts, up_pcts",
-    [([], []), 
+    [([], []),
      ([10], []),
      ([], [10]),
      ],
@@ -28,6 +29,7 @@ def test_up_down_classifier_when_pcts_length_zero_raises_exception(down_pcts, up
     with pytest.raises(ValueError, match=r"'down_pcts' and 'up_pcts' should be at least 1"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
+
 def test_up_down_classifier_when_down_pcts_not_ascending_raises_exception():
     window = 2
     down_pcts = [20, 10]
@@ -35,6 +37,7 @@ def test_up_down_classifier_when_down_pcts_not_ascending_raises_exception():
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should be in order monotonically ascendingly"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
+
 
 def test_up_down_classifier_when_up_pcts_not_ascending_raises_exception():
     window = 2
@@ -44,6 +47,7 @@ def test_up_down_classifier_when_up_pcts_not_ascending_raises_exception():
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should be in order monotonically ascendingly"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
+
 def test_up_down_classifier_when_down_pcts_not_greater_than_zero_raises_exception():
     window = 2
     down_pcts = [-10, 20]
@@ -51,6 +55,7 @@ def test_up_down_classifier_when_down_pcts_not_greater_than_zero_raises_exceptio
 
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should greater than 0"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
+
 
 def test_up_down_classifier_when_up_pcts_not_greater_than_zero_raises_exception():
     window = 2
@@ -60,16 +65,18 @@ def test_up_down_classifier_when_up_pcts_not_greater_than_zero_raises_exception(
     with pytest.raises(ValueError, match="'down_pcts' and 'up_pcts' values should greater than 0"):
         udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
+
 def test_up_down_classifier_classify_when_data_size_is_equal_or_less_than_window_raises_exception():
     window = 2
     down_pcts = [10, 20]
     up_pcts = [10, 20]
     data = [3, 2]
 
-    classifier= udc.UpsDownsClassifier(window, down_pcts, up_pcts)
+    classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
     with pytest.raises(ValueError, match=r"'data' length should be bigger than 'window'"):
         classifier.classify(data)
+
 
 def test_up_down_classifier_when_data_values_not_greater_than_zero_raises_exception():
     data = [3, -2, 5]
@@ -77,10 +84,11 @@ def test_up_down_classifier_when_data_values_not_greater_than_zero_raises_except
     down_pcts = [10, 20]
     up_pcts = [10, 20]
 
-    classifier= udc.UpsDownsClassifier(window, down_pcts, up_pcts)
+    classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
 
     with pytest.raises(ValueError, match="'data' values should be greater than 0"):
         classifier.classify(data)
+
 
 def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_minus1s_window():
     data = [3, 2.9, 3.0, 2.8, 2.6]
@@ -88,11 +96,12 @@ def test_up_down_classifier_when_called_valid_parameters_returns_classes_with_mi
     down_pcts = [10, 20]
     up_pcts = [10, 20]
 
-    classifier= udc.UpsDownsClassifier(window, down_pcts, up_pcts)
+    classifier = udc.UpsDownsClassifier(window, down_pcts, up_pcts)
     classes = classifier.classify(data)
-    
+
     expected = [2, 2, 1, -1, -1]
     assert classes == expected
+
 
 @pytest.mark.parametrize(
     "data, expected",
@@ -108,6 +117,7 @@ def test_find_down_up_classes_when_data_change_small_returns_neutral_class(data,
     )
 
     assert classes == expected
+
 
 @pytest.mark.parametrize(
     "data, expected",
@@ -258,6 +268,7 @@ def test_find_down_up_classes_when_many_up_down_pcts_returns_correct_classes(dat
     )
 
     assert classes == expected
+
 
 @pytest.mark.parametrize(
     "data, expected",
