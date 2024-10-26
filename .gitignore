@@ -1,5 +1,7 @@
 ## RIGA
 data/*
+backups/*
+models/*
 config.json
 !data/tickers_params/
 !data/output/logs/
