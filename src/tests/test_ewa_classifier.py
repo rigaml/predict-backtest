@@ -1,9 +1,7 @@
-import unittest
 import pytest
 
-from math import nan, isclose
+from math import isclose
 
-import context
 from classifiers import ewa_classifier as ec
 
 
