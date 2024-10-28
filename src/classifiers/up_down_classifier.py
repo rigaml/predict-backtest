@@ -20,6 +20,11 @@ class UpsDownsClassifier(BaseClassifier):
         self.trace_print = trace_print
 
     def classify(self, data) -> List[int]:
+        """
+        Validates input parameters.
+        Finds what down or up percentage is reached first in the data window period.
+        Makes sure that the returned classes are the same length as the input data.
+        """
         validate_classify(data, self.window)
 
         classes = find_down_up_classes(
