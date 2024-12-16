@@ -12,7 +12,7 @@ class TestTiingoAPI(unittest.TestCase):
         self.api = TiingoAPI("my_api_key")
 
     @patch.object(TiingoAPI, "build_download_url")
-    @patch.object(TiingoAPI, "make_request_with_retry")
+    @patch.object(TiingoAPI, "request_url_with_retry")
     def test_download_ticker_success(self, mock_make_request, mock_build_url):
         """Test successful download of ticker data."""
         mock_build_url.return_value = "http://example.com/data"
@@ -37,7 +37,7 @@ class TestTiingoAPI(unittest.TestCase):
         self.assertEqual(result, "csv_data")
 
     @patch.object(TiingoAPI, "build_download_url")
-    @patch.object(TiingoAPI, "make_request_with_retry")
+    @patch.object(TiingoAPI, "request_url_with_retry")
     def test_download_ticker_404_error(self, mock_make_request, mock_build_url):
         """Test handling of 404 error during download."""
         mock_build_url.return_value = "http://example.com/data"
@@ -65,7 +65,7 @@ class TestTiingoAPI(unittest.TestCase):
         self.assertIsNone(result)
 
     @patch.object(TiingoAPI, "build_download_url")
-    @patch.object(TiingoAPI, "make_request_with_retry")
+    @patch.object(TiingoAPI, "request_url_with_retry")
     def test_download_ticker_request_exception(self, mock_make_request, mock_build_url):
         """Test handling of request exception during download."""
         mock_build_url.return_value = "http://example.com/data"

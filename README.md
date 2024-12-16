@@ -4,7 +4,7 @@ This project uses PyTorch to train a neural network on patterns from preprocesse
 
 ## Installation
 
-Use [Poetry](https://python-poetry.org/), a package dependency manager to install project dependencies:
+Use [Poetry](https://python-poetry.org/), a package dependency manager, to install project dependencies:
 
 ```bash
 poetry install
@@ -12,8 +12,8 @@ poetry install
 
 If you want to use your GPU, follow the instructions provided by your computer's GPU vendor to install the corresponding drivers, if not done so before.
 
-
 Next, create a Jupyter kernel that points to the Poetry environment so you can work with project's installed dependencies in the Jupiter Notebooks in Jupyter later
+
 ```bash
 poetry run python -m ipykernel install --user --name=<my_pytorch_env>
 ```
@@ -23,23 +23,28 @@ When you run the command to install the kernel (using ipykernel), it registers t
 On Ubuntu/Linux kernels are in: `~/.local/share/jupyter/kernels/`
 
 You can actually see all the kernels Jupyter knows about by running this command:
+
 ```bash
 poetry run jupyter kernelspec list
 ```
 
 ### Jupyter Notebook
-If you don't have Jupyter Notebook installed in your system, in a separate folder, install it following: 
+
+If you don't have Jupyter Notebook installed in your system, in a separate folder, install it following:
+
 ```bash
 python -m venv jupyter_env
 source jupyter_env/bin/activate
 pip install jupyter
 ```
+
 Once jupiter environment activated and Jupyter installed open it with:
+
 ```bash
 jupyter notebook
 ```
-If you created a kernel with this project dependecies as explained in previous steps, you can select it on the top right hand side of the notebook.
 
+If you created a kernel with this project dependecies as explained in previous steps, you can select it on the top right hand side of the notebook.
 
 ## Usage
 
@@ -47,14 +52,14 @@ Create a file `config.json` in the root folder of the project, and add your secr
 
 ```json
 {
-    "tiingo-key": "your-api-key"
+  "tiingo-key": "your-api-key"
 }
-
 ```
-Open `single_class.ipynb` Jupyter Notebook and follow the instructions to train a neural network. You might need to adjust the download ticker and dates to get your required data. 
+
+Open `single_class.ipynb` Jupyter Notebook and follow the instructions to train a neural network. You might need to adjust the download ticker and dates to get your required data.
 After executing the notebook, a file with the resulting neural network will be saved in the `models` folder. Also parameters about training results will be displayed.
 
-The trained network obtained in the previous notebook can be used in `single_class_test.ipynb` to test on unseen data. Adjust the ticker and dates to test on the desired unseen data.  
+The trained network obtained in the previous notebook can be used in `single_class_test.ipynb` to test on unseen data. Adjust the ticker and dates to test on the desired unseen data.
 
 ## Notebooks and Git
 
@@ -64,7 +69,7 @@ Executed command below to setup a Git filter to automatically remove the output 
 
 ```bash
 nbstripout --install --attributes .gitattributes
-``` 
+```
 
 ## Contributing
 

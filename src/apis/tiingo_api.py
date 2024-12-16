@@ -1,4 +1,5 @@
 from datetime import datetime
+from http import client
 import time
 from typing import Optional
 import requests
@@ -43,7 +44,7 @@ class TiingoAPI:
             f"Retrieving {ticker} from {start_date} to {end_date} on {interval}m - {url}"
         )
 
-        return self.make_request_with_retry(url)
+        return self.request_url_with_retry(url)
 
     def build_download_url(
         self,
@@ -69,21 +70,31 @@ class TiingoAPI:
             f"format=csv"
         )
 
-    def make_request_with_retry(self, url, retries=5, delay=1) -> Optional[str]:
+    def request_url_with_retry(self, url: str, params=None, retries: int = 5, delay: int = 1) -> Optional[str]:
         headers = {"Content-Type": "application/json"}
-        for attempt in range(retries + 1):
+
+        for attempt in range(1, retries + 1):
             try:
-                response = requests.get(url, headers)
-                response.raise_for_status()  # Raise an exception for non-2xx responses
+                response = requests.get(url, params=params, headers=headers)
+                response.raise_for_status()
                 return response.text
-            except requests.RequestException as e:
-                if response.status_code == 404:
-                    logger.warning(f"404 error: {e}")
+            # Use `HTTPError` for Http errors (status codes 404, 403...)
+            except requests.exceptions.HTTPError as http_err:
+                if http_err.response.status_code == client.NOT_FOUND:
+                    logger.warning(f"Requesting {url} got 404 NOT FOUND", http_err)
                     return None
+                else:
+                    # Since not transient error, should exit
+                    logger.error(f"Requested {url} got http error.", http_err)
+                    raise Exception(f"Requested {url} got http error.", http_err)
+            # Use `RequestException` for network related issues like connection errors, timeouts
+            except requests.exceptions.RequestException as req_err:
                 if attempt < retries:
-                    logger.info(f"Transient error occurred. Retrying in {delay} seconds...")
+                    logger.info(
+                        f"Requested {url} got network error. Retrying in {delay} seconds...", req_err)
                     time.sleep(delay)
                     delay *= 2  # Exponential backoff
                 else:
-                    logger.error(f"Tiingo API error after {retries} retries: {e}")
-                    raise
+                    logger.error(
+                        f"Retried {url} for {attempt} times got network errors. Aborting!", req_err)
+                    raise Exception(f"Retried {url} for {attempt} times got network errors. Aborting!", req_err)
